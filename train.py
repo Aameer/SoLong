@@ -4,6 +4,9 @@ from keras.preprocessing.image import ImageDataGenerator
 import json
 import wandb
 
+from keras.models import Model
+from keras.layers import Input, Dense
+
 from keras.layers import Dense, Flatten
 from keras.models import Sequential
 from keras.callbacks import Callback
@@ -65,6 +68,12 @@ def show_bb(i):
     plt.gca().add_patch(create_rect(bb))
 
 
+# a = Input(shape=(32,))
+# b = Dense(32)(a)
+# model = Model(inputs=a, outputs=b)
+# model = Model(inputs=[a1, a2], outputs=[b1, b2, b3])
+
+### Problem 1 ###
 # setup model
 conv_base = InceptionV3(include_top=False, weights='imagenet', input_shape=(config.width, config.height, 3))
 model = Sequential()
@@ -72,6 +81,14 @@ model.add(conv_base)
 model.add(Flatten(input_shape=conv_base.output_shape[1:]))
 model.add(Dense(256, activation='relu'))
 model.add(Dense(8, activation='sigmoid'))
+
+# ### Problem 2 ###
+# a = Input(shape=(config.width, config.height, 3))
+# c = InceptionV3(include_top=False, weights='imagenet', input_shape=(config.width, config.height, 3))
+# f = Flatten(input_shape=conv_base.output_shape[1:])
+# d1 = Dense(256, activation='relu')
+# d2 = Dense(8, activation='sigmoid')
+# model = Model(inputs=[a, c, f, d1, d2], outputs=[b1])
 
 conv_base.trainable = True
 
