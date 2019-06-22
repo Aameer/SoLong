@@ -1,0 +1,4 @@
+Get train data from here https://datasets.univ.ai/kagglefish/bbox/
+and unzip it in /temp folder
+if you dont have any space then use rm -rf wandb/run* in the folder which are using lot of space.
+create a folder on home to store this data in kagfish
