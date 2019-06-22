@@ -64,8 +64,6 @@ def show_bb(i):
     plotfish(val[i])
     plt.gca().add_patch(create_rect(bb))
 
-    
-#model=
 
 # setup model
 conv_base = InceptionV3(include_top=False, weights='imagenet', input_shape=(config.width, config.height, 3))
@@ -74,7 +72,9 @@ model.add(conv_base)
 model.add(Flatten(input_shape=conv_base.output_shape[1:]))
 model.add(Dense(256, activation='relu'))
 model.add(Dense(8, activation='sigmoid'))
-conv_base.trainable = False
+
+conv_base.trainable = True
+
 optimizer = RMSprop(lr=1e-5)
 model.compile(loss='categorical_crossentropy', optimizer = optimizer, metrics = ['accuracy'])
 
@@ -111,12 +111,6 @@ validation_generator = val_datagen.flow_from_directory(
         shuffle = True,
         classes = anno_classes,
         class_mode = 'categorical')
-
-# model.fit(train_faces, train_emotions, batch_size=config.batch_size,
-#         epochs=config.num_epochs, verbose=1, callbacks=[
-#             WandbCallback(data_type="image", labels=["Angry", "Disgust", "Fear", "Happy", "Sad", "Surprise", "Neutral"])
-#         ], validation_data=(val_faces, val_emotions))
-
 
 model.fit_generator(
         train_generator,
